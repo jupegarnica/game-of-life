@@ -9,15 +9,21 @@ body {
 main {
   height: 100vh;
 }
+/* .board {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  height: 100vh;
+} */
 .cell {
   display: flex;
   justify-content: center;
   align-items: center;
   color: #aaaaaaaa;
+  border: #aaaaaa33 1px solid;
 }
-.cell.live {
+.live {
   background: transparent;
 }
-.cell.dead {
+.dead {
   background: black;
 }
