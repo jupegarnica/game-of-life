@@ -114,9 +114,16 @@ function getNeighborsAlive(neighbors: Row) {
   return neighbors.filter(Boolean).length;
 }
 
-export default function Board() {
+export default function Board({
+  running,
+}: {
+  running: boolean;
+}) {
   const [cells, setCells] = useState(INITIAL_CELLS);
   useInterval(() => {
+    if (!running) {
+      return;
+    }
     const newCells: BoardType = [...cells];
     for (let y = 0; y < HEIGHT; y++) {
       for (let x = 0; x < WIDTH; x++) {
