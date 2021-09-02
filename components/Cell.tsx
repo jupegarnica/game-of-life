@@ -15,7 +15,8 @@ export default function Cell({
       className={`cell ${value ? 'live' : 'dead'}`}
       onClick={onClick}
     >
-      {value ? 1 : 0}
+      {/* {value ? 1 : 0} */}
+      {index}
     </span>
   );
 }
