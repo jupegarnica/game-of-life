@@ -14,17 +14,17 @@ main {
   background: #333;
 
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  /* grid-template-columns: repeat(10, 1fr); */
   height: 100vh;
 }
 .cell {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #aaaaaaaa;
+  /* color: #aaaaaaaa; */
   border: #aaaaaa33 1px solid;
   color: transparent;
-  border: transparent;
+  /* border: transparent 0px solid; */
   border-radius: 50%;
 }
 .live {

@@ -33,7 +33,7 @@ export default function Cell({
         opacity: Math.random() > 0.8 ? 0.9 : 0.6,
       }}
     >
-      {value ? 1 : 0}
+      {/* {value ? 1 : 0} */}
       {/* {index} */}
     </span>
   );
