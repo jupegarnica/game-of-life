@@ -1,52 +1,34 @@
 import React, { useState } from 'react';
 import Cell from './Cell.tsx';
-import { useInterval } from '../lib/useInterval.ts';
+import { useInterval } from '../services/useInterval.ts';
+import {
+  getNeighbors,
+  getNeighborsAlive,
+} from '../services/getNeighbors.ts';
 import type {
   BoardType,
-  Row,
+  // Row,
   Vector,
 } from '../types/Board.types.ts';
-const HEIGHT = 3;
-const WIDTH = 3;
-const DELAY = 2000;
-// const TOTAL_CELLS = HEIGHT * WIDTH;
 
-// const INITIAL_CELLS: BoardType = [...Array(HEIGHT)].map(() =>
-//   [...Array(WIDTH)].map(
-//     // () => Math.random() > 0.5,
-//     () => false,
-//   ),
-// );
-
-const INITIAL_CELLS: BoardType = [
-  [false, true, false],
-  [false, true, false],
-  [false, true, false],
-];
-function getNeighbors(cells: BoardType, position: Vector): Row {
-  const [y, x] = position;
-  const neighbors: Row = [
-    cells[y - 1]?.[x],
-    cells[y + 1]?.[x],
-    cells[y]?.[x - 1],
-    cells[y]?.[x + 1],
-    cells[y - 1]?.[x - 1],
-    cells[y + 1]?.[x - 1],
-    cells[y - 1]?.[x + 1],
-    cells[y + 1]?.[x + 1],
-  ].map(Boolean);
-  return neighbors;
-}
-function getNeighborsAlive(neighbors: Row) {
-  return neighbors.filter(Boolean).length;
+function printBoard(board: BoardType) {
+  console.log(JSON.stringify(board));
 }
 
 export default function Board({
   running,
+  initialCells,
+  delay = 200,
 }: {
   running: boolean;
+  initialCells: BoardType;
+  delay?: number;
 }) {
-  const [cells, setCells] = useState(INITIAL_CELLS);
+  const [cells, setCells] = useState(initialCells);
+
+  const HEIGHT = initialCells.length;
+  const WIDTH = initialCells[0].length;
+
   useInterval(() => {
     if (!running) {
       return;
@@ -61,9 +43,6 @@ export default function Board({
 
         const neighbors = getNeighbors(cells, position);
         const neighborsAlive = getNeighborsAlive(neighbors);
-        console.log(
-          isAlive && { neighbors, neighborsAlive, position },
-        );
 
         if (isAlive) {
           newCells[y][x] =
@@ -74,7 +53,7 @@ export default function Board({
       }
     }
     setCells(newCells);
-  }, DELAY);
+  }, delay);
   return (
     <>
       <style>
@@ -84,21 +63,27 @@ export default function Board({
         grid-template-columns: repeat(${WIDTH}, 1fr);
         height: 100vh;
       }
+      .cell {
+        transition: background-color ${
+          delay * 0.7
+        }ms ease-in-out;
+
+      }
       `}
       </style>
-      <div className='board'>
+      <div
+        className='board'
+        onDoubleClick={() => printBoard(cells)}
+      >
         {/* <pre>{JSON.stringify(cells, null, 2)}</pre> */}
         {cells.map((row, y) =>
           row.map((value, x) => {
-            const id = `${x}-${y}`;
             return (
               <Cell
-                key={id}
-                index={id}
+                key={`${x}-${y}`}
+                position={[x, y]}
                 value={value}
                 onClick={() => {
-                  console.log(x, y);
-
                   const newCells = JSON.parse(
                     JSON.stringify(cells),
                   );

@@ -9,21 +9,27 @@ body {
 main {
   height: 100vh;
 }
-/* .board {
+.board {
+  background: white;
+  background: #333;
+
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   height: 100vh;
-} */
+}
 .cell {
   display: flex;
   justify-content: center;
   align-items: center;
   color: #aaaaaaaa;
   border: #aaaaaa33 1px solid;
+  color: transparent;
+  border: transparent;
+  border-radius: 50%;
 }
 .live {
-  background: transparent;
+  background: rgba(203, 71, 255, 0.2);
 }
-.dead {
-  background: black;
+.live:hover {
+  opacity: 1 !important;
 }
